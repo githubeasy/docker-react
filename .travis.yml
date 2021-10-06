@@ -5,7 +5,23 @@ services:
 before_install:
   - docker build -t cjshinde/docker-react -f Dockerfile.dev .
 
-  
+
 script:
   - docker run -e CI=true cjshinde/docker-react npm run test -- --coverage
+
+deploy:
+    provide: elasticbeanstalk
+    region: "us-east-2"
+    app: "docker"
+    env: "Docker-env"
+    bucket_name: "elasticbeanstalk-us-east-2-068646080568"
+    bucket_path: "docker"
+    on:
+      branch: master
+    access_access_key: $AWS_ACCESS_KEY
+    secret_access_key: 
+      secure: $AWS_SECRET_KEY
+
+
+
   
